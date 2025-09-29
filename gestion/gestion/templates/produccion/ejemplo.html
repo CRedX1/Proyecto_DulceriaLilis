@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<body>
+    <h1>{{ producto }}</h1>
+    <h2>Ingredientes:</h2>
+    <ul>
+        {% for ingrediente in ingredientes %}
+            <li>{{ ingrediente.nombre }}: {{ ingrediente.valor }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

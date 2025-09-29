@@ -1,6 +1,7 @@
 from django.shortcuts import render
+from django.http import HttpResponse
 
 # Create your views here.
+
 def inicio(request):
-    contexto = {"nombre": "Dulcería Lilis"}
-    return render(request, 'produccion/inicio.html', contexto)
+    return HttpResponse("Bienvenido a la sección de Producción")

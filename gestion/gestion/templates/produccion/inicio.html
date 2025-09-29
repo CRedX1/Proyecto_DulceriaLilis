@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dulcería Lilis - Página Principal</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        h1 { color: #b5651d; }
+        .menu { margin-top: 30px; }
+        .menu a {
+            display: block;
+            margin: 10px 0;
+            font-size: 1.2em;
+            color: #b5651d;
+            text-decoration: none;
+            border: 1px solid #b5651d;
+            padding: 8px 16px;
+            border-radius: 5px;
+            width: 250px;
+            background: #fff8f0;
+            transition: background 0.2s;
+        }
+        .menu a:hover {
+            background: #ffe5cc;
+        }
+        .footer { margin-top: 40px; color: #888; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <h1>Bienvenido a Dulcería Lilis</h1>
+    <p>Selecciona una sección para continuar:</p>
+    <div class="menu">
+        <a href="{% url 'cuentas_usuario:perfil' %}">Ver Perfil de Usuario</a>
+        <a href="{% url 'produccion:inicio' %}">Producción</a>
+        <a href="{% url 'proveedores:lista' %}">Ver lista de Proveedores</a>
+        <a href="{% url 'proveedores:ordenes' %}">Ver Órdenes de Compra</a>
+        <a href="{% url 'proveedores:crear_orden' %}">Crear nueva Orden de Compra</a>
+        <a href="{% url 'ventas:inicio' %}">Ventas</a>
+    </div>
+    <div class="footer">
+        Proyecto de Informática - Sebastián, Marcos y Cristóbal
+    </div>
+</body>
+</html>

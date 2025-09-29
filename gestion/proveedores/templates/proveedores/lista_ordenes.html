@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Órdenes de Compra</title>
+</head>
+<body>
+    <h1>Órdenes de Compra</h1>
+    {% for orden in ordenes %}
+        <div style="border:1px solid #ccc; margin-bottom:20px; padding:10px;">
+            <strong>OC #{{ orden.id }}</strong><br>
+            Proveedor: {{ orden.proveedor.nombre }}<br>
+            Fecha: {{ orden.fecha }}<br>
+            Total: ${{ orden.total }}<br>
+            <h4>Detalles:</h4>
+            <ul>
+                {% for detalle in orden.detalles.all %}
+                    <li>
+                        {{ detalle.producto }} - Cantidad: {{ detalle.cantidad }} - Precio unitario: ${{ detalle.precio_unitario }}
+                    </li>
+                {% empty %}
+                    <li>No hay detalles para esta orden.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% empty %}
+        <p>No hay órdenes de compra registradas.</p>
+    {% endfor %}
+    <a href="{% url 'inicio' %}">Volver al inicio</a>
+</body>
+</html>
