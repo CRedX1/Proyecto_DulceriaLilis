@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard Administrador - Dulcería Lilis</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; background-color: #f5f5f5; }
+        .container { max-width: 1200px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        h1, h2 { color: #b5651d; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+        .orden { border: 1px solid #ddd; margin: 15px 0; padding: 20px; border-radius: 8px; background: #fff8f0; }
+        .btn { background: #b5651d; color: white; padding: 10px 15px; text-decoration: none; border-radius: 5px; margin: 5px; display: inline-block; }
+        .btn:hover { background: #8b4513; }
+        .logout { color: #666; text-decoration: none; margin-left: 20px; }
+        .admin-menu { margin: 20px 0; padding: 20px; background: #f8f8f8; border-radius: 8px; }
+        .user-info { color: #666; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Dashboard de Administrador</h1>
+            <div class="user-info">
+                <span>Bienvenido Admin, <strong>{{ user.username }}</strong>!</span>
+                <a href="{% url 'cuentas_usuario:logout' %}" class="logout">Cerrar Sesión</a>
+            </div>
+        </div>
+
+        <div class="admin-menu">
+            <h3>Panel de Administración</h3>
+            <a href="{% url 'admin:index' %}" class="btn">Panel Admin Django</a>
+            <a href="{% url 'proveedores:lista' %}" class="btn">Gestionar Proveedores</a>
+            <a href="{% url 'proveedores:crear_orden' %}" class="btn">Crear Orden de Compra</a>
+            <a href="{% url 'produccion:inicio' %}" class="btn">Gestionar Producción</a>
+            <a href="{% url 'ventas:inicio' %}" class="btn">Gestionar Ventas</a>
+        </div>
+
+        <h2>Todas las Órdenes de Compra del Sistema</h2>
+        {% if ordenes %}
+            {% for orden in ordenes %}
+                <div class="orden">
+                    <h3>Orden #{{ orden.id }}</h3>
+                    <p><strong>Cliente:</strong> {{ orden.cliente.username }}</p>
+                    <p><strong>Proveedor:</strong> {{ orden.proveedor.nombre }}</p>
+                    <p><strong>Fecha:</strong> {{ orden.fecha }}</p>
+                    <p><strong>Total:</strong> ${{ orden.total }}</p>
+                    <h4>Detalles:</h4>
+                    <ul>
+                        {% for detalle in orden.detalles.all %}
+                            <li>
+                                <strong>{{ detalle.producto }}</strong> - 
+                                Cantidad: {{ detalle.cantidad }} - 
+                                Precio unitario: ${{ detalle.precio_unitario }}
+                            </li>
+                        {% empty %}
+                            <li>No hay detalles para esta orden</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No hay órdenes de compra en el sistema.</p>
+        {% endif %}
+
+        <div style="margin-top: 30px; text-align: center;">
+            <a href="{% url 'inicio' %}">Volver al inicio</a>
+        </div>
+    </div>
+</body>
+</html>

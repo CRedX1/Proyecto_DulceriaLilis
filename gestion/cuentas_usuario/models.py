@@ -4,10 +4,18 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 class Rol(models.Model):
-    nombre = models.CharField(max_length=50)
+    CLIENTE = 'cliente'
+    ADMIN = 'admin'
+    
+    ROLES_CHOICES = [
+        (CLIENTE, 'Cliente'),
+        (ADMIN, 'Administrador'),
+    ]
+    
+    nombre = models.CharField(max_length=20, choices=ROLES_CHOICES, unique=True)
 
     def __str__(self):
-        return self.nombre
+        return self.get_nombre_display()
 
 class PerfilUsuario(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -16,9 +24,17 @@ class PerfilUsuario(models.Model):
     direccion = models.CharField(max_length=200, blank=True)
 
     def __str__(self):
-        return self.user.username
+        return f"{self.user.username} - {self.rol}"
+
+    def es_cliente(self):
+        return self.rol and self.rol.nombre == Rol.CLIENTE
+
+    def es_admin(self):
+        return self.rol and self.rol.nombre == Rol.ADMIN
 
 @receiver(post_save, sender=User)
 def crear_perfil_usuario(sender, instance, created, **kwargs):
     if created:
-        PerfilUsuario.objects.create(user=instance)
+        # Por defecto, asignar rol de cliente
+        rol_cliente, _ = Rol.objects.get_or_create(nombre=Rol.CLIENTE)
+        PerfilUsuario.objects.create(user=instance, rol=rol_cliente)

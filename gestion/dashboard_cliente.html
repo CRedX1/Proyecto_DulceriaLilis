@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard Cliente - Dulcería Lilis</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        h1, h2 { color: #b5651d; }
+        .header { display: flex; justify-content: space-between; align-items: center; }
+        .orden { border: 1px solid #ccc; margin: 10px 0; padding: 15px; border-radius: 5px; }
+        .btn { background: #b5651d; color: white; padding: 10px 15px; text-decoration: none; border-radius: 5px; }
+        .btn:hover { background: #8b4513; }
+        .logout { color: #666; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Dashboard de Cliente</h1>
+        <div>
+            <span>Bienvenido, {{ user.username }}!</span>
+            <a href="{% url 'cuentas_usuario:logout' %}" class="logout">Cerrar Sesión</a>
+        </div>
+    </div>
+
+    <div style="margin: 20px 0;">
+        <a href="{% url 'cuentas_usuario:crear_orden' %}" class="btn">Crear Nueva Orden</a>
+    </div>
+
+    <h2>Mis Órdenes de Compra</h2>
+    {% if ordenes %}
+        {% for orden in ordenes %}
+            <div class="orden">
+                <strong>Orden #{{ orden.id }}</strong><br>
+                Proveedor: {{ orden.proveedor.nombre }}<br>
+                Fecha: {{ orden.fecha }}<br>
+                Total: ${{ orden.total }}<br>
+                <h4>Detalles:</h4>
+                <ul>
+                    {% for detalle in orden.detalles.all %}
+                        <li>{{ detalle.producto }} - Cantidad: {{ detalle.cantidad }} - Precio: ${{ detalle.precio_unitario }}</li>
+                    {% empty %}
+                        <li>No hay detalles</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>No tienes órdenes de compra aún. <a href="{% url 'cuentas_usuario:crear_orden' %}">Crea tu primera orden</a></p>
+    {% endif %}
+
+    <div style="margin-top: 30px;">
+        <a href="{% url 'inicio' %}">Volver al inicio</a>
+    </div>
+</body>
+</html>

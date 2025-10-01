@@ -29,11 +29,11 @@
     <h1>Bienvenido a Dulcería Lilis</h1>
     <p>Selecciona una sección para continuar:</p>
     <div class="menu">
-        <a href="{% url 'cuentas_usuario:perfil' %}">Ver Perfil de Usuario</a>
+        <a href="{% url 'cuentas_usuario:login' %}">Iniciar Sesión</a>
+        <a href="{% url 'cuentas_usuario:registro' %}">Registrarse como Cliente</a>
         <a href="{% url 'produccion:inicio' %}">Producción</a>
         <a href="{% url 'proveedores:lista' %}">Ver lista de Proveedores</a>
         <a href="{% url 'proveedores:ordenes' %}">Ver Órdenes de Compra</a>
-        <a href="{% url 'proveedores:crear_orden' %}">Crear nueva Orden de Compra</a>
         <a href="{% url 'ventas:inicio' %}">Ventas</a>
     </div>
     <div class="footer">
